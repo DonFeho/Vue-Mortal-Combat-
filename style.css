@@ -1,0 +1,78 @@
+.overlay {
+  height: 100vh;
+  padding: 3rem 1rem 1rem;
+}
+.controls {
+  background: rgba(133, 126, 145, 0);
+  margin: auto;
+  padding: 1rem;
+}
+.bgOver {
+  background: rgba(73, 63, 80, 0.3);
+}
+.bg0 {
+  background: transparent;
+}
+
+body {
+  background: url('https://images7.alphacoders.com/897/thumb-1920-897159.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+::-webkit-scrollbar {
+  width: 0px; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+
+.log-box {
+  width: auto;
+  height: 42vh;
+  overflow: scroll;
+}
+
+.battle-box {
+  width: 100%;
+  height: 75vh;
+}
+.act-box {
+  width: 100%;
+  height: 10vh;
+}
+
+.text-gold {
+  color: gold;
+}
+
+.progress {
+  background: rgba(128, 128, 128, 0.185);
+  border: 2px solid gold;
+}
+.p1,
+.p2 {
+  height: 45px;
+  background: rgb(19, 21, 41);
+
+  border-radius: 5px;
+}
+
+.btn-animated {
+  animation: mySpell 2s ease-in-out infinite;
+  animation-direction: alternate-reverse;
+}
+@keyframes mySpell {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(0.9);
+  }
+}

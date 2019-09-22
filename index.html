@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="./vue.js"></script>
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <div
+        id=""
+        class="container-fluid overlay"
+        :class="start ? 'bgOver' : '' "
+      >
+        <div class="container battle-box">
+          <div class="row text-center">
+            <div class="col-md-6 mx-auto">
+              <button v-if="!start" class="btn btn-dark" @click="started">
+                Start The Battle
+              </button>
+            </div>
+          </div>
+          <div class="row py-3 px-2 text-light text-center">
+            <div v-if="start" class="col-md-10 mx-auto">
+              <h3>Turn: {{ turn }}</h3>
+            </div>
+            <!-- Zero -->
+            <div v-if="start" class="col-md-6">
+              <h4>PLAYER - <strong class="text-gold">SubZero</strong></h4>
+              <div class="progress" style="height:45px">
+                <div
+                  class="progress-bar p1 pbar"
+                  :style="{width: healthP1 + '%'}"
+                >
+                  <h3>
+                    {{ healthP1 }}
+                  </h3>
+                </div>
+              </div>
+              <div>
+                <h5>Current Turn: {{ currentLog1 }}</h5>
+                <p class="lead">Total Damage: {{ totalDamageP2 }}</p>
+              </div>
+              <div class="log-box">
+                <hr />
+                <ul class="list-unstyled mt-3">
+                  <li v-for="tLog1 in turnsLog1">
+                    <p>{{ tLog1.mess }}</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Scorpio -->
+            <div v-if="start" class="col-md-6">
+              <h4><strong class="text-gold">Scorpion</strong> - PC</h4>
+              <div class="progress " style="height:45px">
+                <div
+                  class="progress-bar p1 pbar"
+                  :style="{width: healthP2 + '%'}"
+                >
+                  <h3>
+                    {{ healthP2 }}
+                  </h3>
+                </div>
+              </div>
+              <div>
+                <h5>Current Turn: {{ currentLog2 }}</h5>
+                <p class="lead">Total Damage: {{ totalDamageP1 }}</p>
+              </div>
+              <div class="log-box">
+                <hr />
+                <ul class="list-unstyled mt-3">
+                  <li v-for="tLog2 in turnsLog2">
+                    <p>{{ tLog2.mess }}</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="start" class="container act-box">
+          <div class="row py-3 text-center">
+            <div class="col-md-4 ">
+              <template v-if="!end">
+                <div class="controls">
+                  <button class="btn btn-success" @click="doDamage('Punch', 6)">
+                    Punch
+                  </button>
+                  <button class="btn btn-primary" @click="doDamage('Kick', 14)">
+                    Kick
+                  </button>
+                  <button
+                    v-if="spellActive"
+                    class="btn btn-info btn-animated ml-3"
+                    @click="doDamage('Spell', 25)"
+                  >
+                    Combo Attack
+                  </button>
+                </div>
+              </template>
+            </div>
+            <div class="col-md-4">
+              <template v-if="!end, start">
+                <audio autoplay loop controls>
+                  <source src="sound.mp3" type="audio/mpeg" />
+                </audio>
+              </template>
+              <template v-if="hitSound">
+                <audio autoplay>
+                  <source src="hit.mp3" type="audio/mpeg" />
+                </audio>
+              </template>
+              <template v-if="spellSound">
+                <audio autoplay>
+                  <source src="spell.mp3" type="audio/mpeg" />
+                </audio>
+              </template>
+            </div>
+            <div class="col-md-4">
+              <template v-if="!end">
+                <button class="btn btn-danger ml-5" @click="reset">
+                  Surrender
+                </button>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="app.js"></script>
+  </body>
+</html>
