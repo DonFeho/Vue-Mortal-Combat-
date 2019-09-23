@@ -1,6 +1,7 @@
 new Vue({
     el: '#app',
     data: {
+
         healthP1: 100,
         healthP2: 100,
         totalDamageP1: null,
@@ -16,11 +17,12 @@ new Vue({
         sound: false,
         hitSound: false,
         spellSound: false,
-        spells: [4, 10, 15, 20, 25, 30],
+        spells: [5, 11, 17, 22, 27],
         heroes: [
             { name: 'Subzero', health: 100, fr: 'light' },
             { name: 'Scorpion', health: 100, fr: 'dark' }
-        ]
+        ],
+        result: ''
 
     },
     methods: {
@@ -50,7 +52,6 @@ new Vue({
 
         doDamage: function (dmgType, dmgK) {
             dmgType === 'Spell' ? this.spellSound = true : this.hitSound = true;
-            this.turn += 1;
             let dmgP = Math.floor(Math.random() * dmgK)
             this.healthP2 = this.healthP2 - dmgP
             this.totalDamageP2 = this.totalDamageP2 + dmgP
@@ -60,20 +61,34 @@ new Vue({
             })
             dmgP === 0 ? this.currentLog1 = `${dmgType} Blocked` : this.currentLog1 = `${dmgType} Success: ${dmgP} dmg`
 
+        },
+        pcDamage: function (dmgType, dmgK) {
             let dmgPc = Math.floor(Math.random() * dmgK)
             this.healthP1 = this.healthP1 - dmgPc
             this.totalDamageP1 = this.totalDamageP1 + dmgPc
             this.turnsLog2.unshift({
                 t: this.turn,
-                mess: dmgPc === 0 ? this.currentLog2 = `${dmgType} Blocked` : this.currentLog2 = `${dmgType}ed: ${dmgP} dmg`
+                mess: dmgPc === 0 ? this.currentLog2 = `${dmgType} Blocked` : this.currentLog2 = `${dmgType}ed: ${dmgPc} dmg`
             })
-            dmgPc === 0 ? this.currentLog2 = `${dmgType} Blocked` : this.currentLog2 = `${dmgType} Success: ${dmgP} dmg`
+            dmgPc === 0 ? this.currentLog2 = `${dmgType} Blocked` : this.currentLog2 = `${dmgType} Success: ${dmgPc} dmg`
+            this.turnDamage();
+        },
 
+        turnDamage: function () {
+            this.turn += 1;
             if (this.totalDamageP1 >= 100 || this.totalDamageP2 >= 100) {
+
                 this.end = true;
             }
         },
+        setResult: function (option) {
+            this.result = option;
+        }
     },
+
+
+
+
     computed: {
         setOverlay: function () {
             return {
@@ -86,6 +101,7 @@ new Vue({
         turn: function (value) {
             game = this;
             if (value > 0) {
+
                 setTimeout(function () {
                     game.hitSound = false;
                 }, 200);
@@ -98,38 +114,24 @@ new Vue({
             } else {
                 game.spellActive = false;
             }
+
         },
 
         end: function (value) {
             game = this;
             if (value) {
                 if (game.healthP2 <= 0 && game.healthP1 <= 0) {
-                    setTimeout(function () {
-                        alert('Draw!!!');
-                    }, 200);
+                    game.setResult('DRAW');
                 } else if (game.healthP1 <= 0) {
+                    game.healthP1 = 0;
+                    game.setResult('You Loose ...');
 
-                    setTimeout(function () {
-                        alert('You Loose !!!');
-                    }, 200);
                 } else {
-
-                    setTimeout(function () {
-                        alert('You Win');
-                    }, 200);
+                    game.healthP2 = 0;
+                    game.setResult('You WIN !!!');
                 }
-
             }
-
-
-
-            setTimeout(function () {
-                game.reset();
-            }, 1500);
-
-
         }
-
     }
 })
 

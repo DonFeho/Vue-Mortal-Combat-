@@ -1,12 +1,44 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+.turn {
+  color: gold;
+  position: absolute;
+  top: 60px;
+  left: 47vw;
+}
+
+.btn-controls {
+  box-shadow: 2px 2px 15px 2px whitesmoke;
+}
+.o-50 {
+  opacity: 0.35;
+}
+.o-50:hover {
+  opacity: 0.8;
+}
+body {
+  font-family: 'Montserrat', 'Tahoma', 'proxima-nova', 'Helvetica Neue', Arial,
+    sans-serif;
+}
+
+.game-over {
+  color: gold;
+  text-shadow: 2px 2px 5px rgb(32, 5, 13);
+  background: rgba(17, 13, 24, 0.6);
+  border-radius: 3%;
+  padding: 1rem 0;
+}
+
 .overlay {
   height: 100vh;
   padding: 3rem 1rem 1rem;
+  background: url('https://images7.alphacoders.com/897/thumb-1920-897159.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
-.controls {
-  background: rgba(133, 126, 145, 0);
-  margin: auto;
-  padding: 1rem;
-}
+
 .bgOver {
   background: rgba(73, 63, 80, 0.3);
 }
@@ -15,7 +47,7 @@
 }
 
 body {
-  background: url('https://images7.alphacoders.com/897/thumb-1920-897159.jpg');
+  background: url('https://mortalkombatgamessupport.wbgames.com/hc/article_attachments/360020611733/mkxhud2.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -29,14 +61,15 @@ body {
 
 .log-box {
   width: auto;
-  height: 42vh;
+  height: 35vh;
   overflow: scroll;
 }
 
 .battle-box {
   width: 100%;
-  height: 75vh;
+  height: 70vh;
 }
+
 .act-box {
   width: 100%;
   height: 10vh;

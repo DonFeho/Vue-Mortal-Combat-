@@ -20,39 +20,46 @@
 
   <body>
     <div id="app">
-      <div
-        id=""
-        class="container-fluid overlay"
-        :class="start ? 'bgOver' : '' "
-      >
+      <div class="container-fluid overlay" :class="start ? 'bgOver' : '' ">
         <div class="container battle-box">
           <div class="row text-center">
             <div class="col-md-6 mx-auto">
-              <button v-if="!start" class="btn btn-dark" @click="started">
-                Start The Battle
+              <button
+                v-if="!start"
+                class="btn btn-danger btn-animated"
+                @click="started"
+              >
+                START
               </button>
             </div>
           </div>
-          <div class="row py-3 px-2 text-light text-center">
-            <div v-if="start" class="col-md-10 mx-auto">
+          <div v-if="!start, end" class="row text-center py-5">
+            <div class="col-md-6 mx-auto">
+              <div class="game-over">
+                <p class="display-4">GAME OVER</p>
+                <p class="display-4">{{ result }}</p>
+              </div>
+            </div>
+            <div class="col-md-9 mx-auto pt-4">
+              <button class="btn btn-danger btn-animated" @click="reset">
+                FIGHT AGAIN
+              </button>
+            </div>
+          </div>
+          <div v-if="start" class="row px-2 text-light text-center">
+            <!-- Zero -->
+            <div v-if="start, !end" class="turn">
               <h3>Turn: {{ turn }}</h3>
             </div>
-            <!-- Zero -->
-            <div v-if="start" class="col-md-6">
-              <h4>PLAYER - <strong class="text-gold">SubZero</strong></h4>
+            <div class="col-md-6">
+              <h4 class="text-left">
+                PLAYER - <strong class="text-gold">SubZero</strong>
+              </h4>
               <div class="progress" style="height:45px">
                 <div
                   class="progress-bar p1 pbar"
                   :style="{width: healthP1 + '%'}"
-                >
-                  <h3>
-                    {{ healthP1 }}
-                  </h3>
-                </div>
-              </div>
-              <div>
-                <h5>Current Turn: {{ currentLog1 }}</h5>
-                <p class="lead">Total Damage: {{ totalDamageP2 }}</p>
+                ></div>
               </div>
               <div class="log-box">
                 <hr />
@@ -62,23 +69,21 @@
                   </li>
                 </ul>
               </div>
+              <div v-if="start, !end">
+                <p class="lead">Total Damage: {{ totalDamageP2 }}</p>
+                <p class="lead">{{ currentLog1 }}</p>
+              </div>
             </div>
             <!-- Scorpio -->
             <div v-if="start" class="col-md-6">
-              <h4><strong class="text-gold">Scorpion</strong> - PC</h4>
+              <h4 class="text-right">
+                <strong class="text-gold">Scorpion</strong> - PC
+              </h4>
               <div class="progress " style="height:45px">
                 <div
-                  class="progress-bar p1 pbar"
+                  class="progress-bar p2 pbar"
                   :style="{width: healthP2 + '%'}"
-                >
-                  <h3>
-                    {{ healthP2 }}
-                  </h3>
-                </div>
-              </div>
-              <div>
-                <h5>Current Turn: {{ currentLog2 }}</h5>
-                <p class="lead">Total Damage: {{ totalDamageP1 }}</p>
+                ></div>
               </div>
               <div class="log-box">
                 <hr />
@@ -88,39 +93,66 @@
                   </li>
                 </ul>
               </div>
+              <div v-if="start, !end">
+                <p class="lead">Total Damage: {{ totalDamageP1 }}</p>
+                <p class="lead">{{ currentLog2 }}</p>
+              </div>
             </div>
           </div>
         </div>
+
         <div v-if="start" class="container act-box">
-          <div class="row py-3 text-center">
-            <div class="col-md-4 ">
+          <div class="row py-3 text-center text-light">
+            <div class="col-md-6">
               <template v-if="!end">
                 <div class="controls">
-                  <button class="btn btn-success" @click="doDamage('Punch', 6)">
+                  <button
+                    class="btn btn-success  rounded-circle p-3 btn-controls"
+                    @click="doDamage('Punch', 6); pcDamage('Punch', 6);"
+                  >
                     Punch
                   </button>
-                  <button class="btn btn-primary" @click="doDamage('Kick', 14)">
+                  <button
+                    class="btn btn-primary rounded-circle p-3 btn-controls"
+                    @click="doDamage('Kick', 14); pcDamage('Kick', 14);"
+                  >
                     Kick
                   </button>
                   <button
                     v-if="spellActive"
-                    class="btn btn-info btn-animated ml-3"
-                    @click="doDamage('Spell', 25)"
+                    class="btn btn-info btn-animated ml-3 rounded-circle p-3 btn-controls"
+                    @click="doDamage('Spell', 25); pcDamage('Spell', 25);"
                   >
-                    Combo Attack
+                    Combo
                   </button>
                 </div>
               </template>
             </div>
-            <div class="col-md-4">
-              <template v-if="!end, start">
-                <audio autoplay loop controls>
-                  <source src="sound.mp3" type="audio/mpeg" />
-                </audio>
+
+            <div class="offset-md-3 col-md-3 ">
+              <template v-if="!end">
+                <button
+                  class="btn btn-danger rounded-circle p-3 btn-controls"
+                  @click="reset"
+                >
+                  Surrender
+                </button>
               </template>
+            </div>
+          </div>
+        </div>
+        <!-- SOUNDS -->
+        <div class="container">
+          <div class="row mx-auto text-center">
+            <div v-if="start" v-if="end" class="col">
               <template v-if="hitSound">
                 <audio autoplay>
                   <source src="hit.mp3" type="audio/mpeg" />
+                </audio>
+              </template>
+              <template class=" mx-auto">
+                <audio autoplay loop controls class="o-50">
+                  <source src="sound.mp3" type="audio/mpeg" />
                 </audio>
               </template>
               <template v-if="spellSound">
@@ -129,17 +161,11 @@
                 </audio>
               </template>
             </div>
-            <div class="col-md-4">
-              <template v-if="!end">
-                <button class="btn btn-danger ml-5" @click="reset">
-                  Surrender
-                </button>
-              </template>
-            </div>
           </div>
         </div>
       </div>
     </div>
+
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
